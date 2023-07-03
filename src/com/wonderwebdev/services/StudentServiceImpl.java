@@ -18,6 +18,10 @@ public class StudentServiceImpl implements StudentService {
 	public List<Student> parseMasterList(String masterListFile) throws IOException {
 		List<Student> students = new ArrayList<>();
 		try (BufferedReader br = new BufferedReader(new FileReader(masterListFile))) {
+			/*
+			 * Note: the following code was place here due to random characters interfering with the parse. 
+			 * The "mark" code resolved the issue
+			 * */
 			// Check for byte order mark(BOM) and skip it if present;
 			if (br.markSupported()) {
 				br.mark(1);
