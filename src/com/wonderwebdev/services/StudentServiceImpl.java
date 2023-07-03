@@ -52,9 +52,10 @@ public class StudentServiceImpl implements StudentService {
 
 	public List<Student> filterStudentsByCourse(List<Student> students, String course) {
 		List<Student> filteredStudents = new ArrayList<>();
-
+		/*NOTE: I chose .startsWith over .equals because the course section numbers were interfering with the sort.
+		 * --.startsWith eliminated that problem*/
 		for (Student student : students) {
-			if (student.getCourse().equals(course)) {
+			if (student.getCourse().startsWith(course)) {
 				filteredStudents.add(student);
 			}
 		}
@@ -63,24 +64,24 @@ public class StudentServiceImpl implements StudentService {
 
 	
 	public void sortStudentsByGradeDescending(List<Student> students) {
-		Collections.sort(students, Comparator.comparingInt(Student::getGrade).reversed());//reversed denotes decending order
+		Collections.sort(students, Comparator.comparingInt(Student::getGrade).reversed());//reversed denotes descending order
 
 	}
 
 	public void saveStudentsToCSV(List<Student> students, String outputFile) throws IOException {
-		try (FileWriter writer = new FileWriter(outputFile)) {
-            for (Student student : students) {
-                writer.append(student.getId())
-                		.append(',')
-                		.append(student.getName())
-                        .append(',')
-                        .append(student.getCourse())
-                        .append(',')
-                        .append(String.valueOf(student.getGrade()))
-                        .append('\n');
-            }
+    try (FileWriter writer = new FileWriter(outputFile)) {
+        for (Student student : students) {
+            writer.append(student.getId())
+                    .append(',')
+                    .append(student.getName())
+                    .append(',')
+                    .append(student.getCourse())
+                    .append(',')
+                    .append(String.valueOf(student.getGrade()))
+                    .append('\n');
         }
-
-	}
+        
+    }
+}
 
 }

@@ -13,12 +13,14 @@ public class StudentEnrollmentApp {
 
 		// read the file
 		String masterListFile = "student-master-list.csv";
-
+		
 		StudentService studentService = new StudentServiceImpl();
 		try {
 			// parse the file
 			List<Student> allStudents = studentService.parseMasterList(masterListFile);
-			List<String> courseNames = List.of("Course 1", "Course 2", "Course 3");
+			// Use an index to track the current course number
+		    int courseIndex = 1;
+			List<String> courseNames = List.of("APMTH", "COMPSCI", "STAT");
 
 			for (String courseName : courseNames) {
 				// separate the data into 3 separate CSV files
@@ -26,13 +28,15 @@ public class StudentEnrollmentApp {
 				// sort the data by grade in descending order
 				studentService.sortStudentsByGradeDescending(courseStudents);
 				// output the data to the 3 separate CSV files
-				studentService.saveStudentsToCSV(courseStudents, courseName.toLowerCase().trim() + ".csv");
-				System.out.println("CSV files generated successfully!");
+				studentService.saveStudentsToCSV(courseStudents, "course" + courseIndex + ".csv");
+				System.out.println("course" + courseIndex + ".csv file generated successfully!");
+				// Increment the course index for the next file name
+		        courseIndex++;
 			}
 
 			/*
 			 * NOTE: This method utilizes the "Try-with-resources" construct with
-			 * bufferedReader and bufferedReader. As such, these classes implement
+			 * bufferedReader and bufferedWriter. As such, these classes implement
 			 * "AutoClosable" and close automatically when the try block is existed
 			 */
 		} catch (IOException e) {
